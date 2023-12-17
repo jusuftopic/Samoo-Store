@@ -1,10 +1,10 @@
 function Products(category, name, price, colors, stock, sizes) {
-    this.category = category,
-        this.name = name,
-        this.price = price,
-        this.color = colors,
-        this.stock = stock,
-        this.sizes = sizes
+     this.category = category,
+     this.name = name,
+     this.price = price,
+     this.color = colors,
+     this.stock = stock,
+     this.sizes = sizes
 }
 
 var products = {
@@ -33,45 +33,32 @@ var products = {
         appleiclock: new Products("Watches", "Apple iclock", 2730, "Black/Grey", "No", "24")
     },
 }
+
+
 function filter() {
-    var userInput = document.getElementById("userInput").value;
-    var a = userInput;
-    a = a.toLowerCase();
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] === " ") {
-            a = a.slice(0, i) + a.slice(i + 1);
-        }
-    }
-    var firstLetter = userInput.charAt(0).toUpperCase();
-    var remain = userInput.slice(1).toLowerCase();
-    userInput = firstLetter + remain;
-    var flag = false;
-    if (userInput != "" && userInput != undefined && userInput != " " && userInput != null) {
-        for (var key in products) {
-            for (var key2 in products[key]) {
-                if (a === key2) {
-                    flag = true;
+    var userInput = getUserInput();
+    var found = false;
+
+    // Filter je napravljen tako da user mora upisati cijelo ime produkta (mala/velika slova nisu bitna)
+    if (userInput) {
+        // category keys: footwears, clothes, watches
+        for (var categoryKey in products) {
+            // product keys: bonzesandal, radoblacky ...
+            for (var productKey in products[categoryKey]) {
+                var productName = products[categoryKey][productKey].name.toLowerCase();
+                 if (userInput === productName) {
+                    found = true;
                     document.getElementById("userInput").value = '';
                     document.getElementById("displaye").style.display = 'none';
                     document.getElementById("products").style.display = 'none';
                     document.getElementById("displayc").style.display = 'block';
-                    document.getElementById("displayc").innerHTML = document.getElementById(key2).innerHTML;
-                    document.getElementById("topButton").style.display = 'none';
-                    document.getElementById("homeButton").style.display = 'block';
-                }
-                else if (userInput === products[key][key2].name) {
-                    flag = true;
-                    document.getElementById("userInput").value = '';
-                    document.getElementById("displaye").style.display = 'none';
-                    document.getElementById("products").style.display = 'none';
-                    document.getElementById("displayc").style.display = 'block';
-                    document.getElementById("displayc").innerHTML = document.getElementById(products[key][key2].name).innerHTML;
+                    document.getElementById("displayc").innerHTML = document.getElementById(productKey).innerHTML;
                     document.getElementById("topButton").style.display = 'none';
                     document.getElementById("homeButton").style.display = 'block';
                 }
             }
         }
-        if (flag != true) {
+        if (!found) {
             document.getElementById("displayc").style.display = 'none';
             document.getElementById("products").style.display = 'none';
             document.getElementById("displaye").style.display = 'block';
@@ -81,7 +68,13 @@ function filter() {
         }
     }
 }
-function home() {
+
+function getUserInput() {
+    var userInput = document.getElementById("userInput").value.trim();
+    return userInput.toLowerCase();
+}
+
+function showAllProducts() {
     setTimeout(function () {
         document.getElementById("userInput").value = '';
         document.getElementById("displayc").style.display = 'none';
@@ -90,60 +83,26 @@ function home() {
         document.getElementById("displaye").style.display = 'none';
     }, 1000)
 }
-function change(id) {
-    document.getElementById(id).childNodes[1].style.display = "none";
-    document.getElementById(id).childNodes[3].style.display = 'block';
-}
-function changee(id) {
-    document.getElementById(id).childNodes[0].style.display = "none";
-    document.getElementById(id).childNodes[1].style.display = 'block';
-}
-function changeag(id, src) {
-    document.getElementById(id).childNodes[1].style.display = "block";
-    document.getElementById(id).childNodes[3].style.display = 'none';
-}
-function changeeag(id, src) {
-    document.getElementById(id).childNodes[0].style.display = "block";
-    document.getElementById(id).childNodes[1].style.display = 'none';
-}
-function details(productName, srcc) {
-    var src = srcc;
-    var name = productName;
-    for (var key in products) {
-        for (var key2 in products[key]) {
-            if (name === key2) {
-                swal({
-                    title: "Name : " + products[key][key2].name,
-                    text: "Category : " + "( " + products[key][key2].category + " )  "
-                        + " --- Color : ( " + products[key][key2].color + " ) "
-                        + " --- Stock  : ( " + products[key][key2].stock + " ) "
-                        + " --- Size : ( " + products[key][key2].sizes + " ) "
-                        + " --- Price : ( RS." + products[key][key2].price + " ) ",
-                    textColor: "red",
-                    imageUrl: src,
-                    imageWidth: 300,
-                    imageHeight: 250,
-                    imageAlt: 'Custom image',
-                    animation: false,
-                })
-            }
-            else if (name === products[key][key2].name) {
-                swal({
-                    title: "Name : " + products[key][key2].name,
-                    text: "Category : " + "( " + products[key][key2].category + " )  "
-                        + " --- Color : ( " + products[key][key2].color + " ) "
-                        + " --- Stock  : ( " + products[key][key2].stock + " ) "
-                        + " --- Size : ( " + products[key][key2].sizes + " ) "
-                        + " --- Price : ( RS." + products[key][key2].price + " ) ",
-                    textColor: "red",
-                    imageUrl: src,
-                    imageWidth: 300,
-                    imageHeight: 250,
-                    imageAlt: 'Custom image',
-                    animation: false,
-                })
-            }
 
+function details(key, src) {
+    for (var categoryKey in products) {
+        for (var productKey in products[categoryKey]) {
+            if (key === productKey) {
+                swal({
+                    title: "Ime: " + products[categoryKey][productKey].name,
+                    html: "Kategorija: " + products[categoryKey][productKey].category + "<br>"
+                        + "Boja: " + products[categoryKey][productKey].color + "<br>"
+                        + "Stanje: " + products[categoryKey][productKey].stock + "<br>"
+                        + "Velicina: " + products[categoryKey][productKey].sizes + " <br> "
+                        + "Cijena : " + products[categoryKey][productKey].price + " KM",
+                    textColor: "red",
+                    imageUrl: src,
+                    imageWidth: 300,
+                    imageHeight: 250,
+                    imageAlt: 'Custom image',
+                    animation: false,
+                })
+            }
         }
     }
 }
@@ -613,7 +572,6 @@ function insertData(id) {
         a.style.backgroundColor = "rgb(164, 252, 164)"
     }
 }
-
 function saleDayGo() {
     setTimeout(function () {
         location = 'sale.html'

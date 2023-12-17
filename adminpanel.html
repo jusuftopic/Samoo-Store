@@ -67,14 +67,14 @@
                 <hr / style="border: 1.5px solid rgb(84, 199, 84)">
                 <div id="displayc"></div>
                 <div id="displaye"></div>
-                <p style="text-align:center;" id="homeButton"><button class="homeBtn" onclick="home();"><i class="fa fa-home"></i> Početna</button></p>
+                <p style="text-align:center;" id="homeButton"><button class="homeBtn" onclick="showAllProducts();"><i class="fa fa-home"></i> Početna</button></p>
                 <div id="content">
                 <div id="products">
                 <div id="footwears">
                     <h1 class="proHead"><i class="fa fa-angle-double-down" style="color:aliceblue;"></i> Obuća</h1>
                     <div style="text-align:center;" class="fContainer1">
                     <div class="f1" id="bonzesandal">
-                        <div class="imgCover" alt="Please Wait Loading..."  onmouseover="change('f1');" onmouseout="changeag('f1','products/footwears/f1.png');" id="f1">
+                        <div class="imgCover" alt="Please Wait Loading..." id="f1">
                         <img src="products/footwears/f1.png" width="200px" height="160px;"> 
                             <div class="b" onclick="details('bonzesandal','products/footwears/f1.png')">+</div>
                     </div>
@@ -84,7 +84,7 @@
                         <button class="adminBtnsDelete" onclick="remove('bonzesandal');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                     </div>
                     <div class="f2" id="learshoes">
-                        <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('f2');" onmouseout="changeag('f2','products/footwears/f22.jpg');" id="f2">
+                        <div class="imgCover" alt="Please Wait Loading..."  id="f2">
                         <img src="products/footwears/f22.jpg" width="200px" height="160px;">
                         <div class="b" onclick="details('learshoes','products/footwears/f22.jpg')">+</div>
                         </div>
@@ -94,7 +94,7 @@
                         <button class="adminBtnsDelete" onclick="remove('learshoes');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                     </div>
                     <div class="f3" id="candyshoes">
-                        <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('f3');" onmouseout="changeag('f3','products/footwears/f3.jpg');" id="f3">
+                        <div class="imgCover" alt="Please Wait Loading..." id="f3">
                         <img src="products/footwears/f3.jpg" width="200px" height="160px;">
                         <div class="b" onclick="details('candyshoes','products/footwears/f3.jpg')">+</div>
                         </div>
@@ -106,7 +106,7 @@
                     </div>
                     <div style="text-align:center;" class="fContainer2">
                     <div class="f4" id="cattyshoes">
-                        <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('f4');" onmouseout="changeag('f4','products/footwears/f4.jpg');" id="f4">
+                        <div class="imgCover" alt="Please Wait Loading..."  id="f4">
                         <img src="products/footwears/f4.jpg" width="200px" height="160px;">
                         <div class="b" onclick="details('cattyshoes','products/footwears/f4.jpg')">+</div>
                         </div>
@@ -116,7 +116,7 @@
                         <button class="adminBtnsDelete" onclick="remove('cattyshoes');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                     </div>
                     <div class="f5" id="skvlfsandal">
-                            <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('f5');" onmouseout="changeag('f5','products/footwears/f5.jpg');" id="f5">
+                            <div class="imgCover" alt="Please Wait Loading..."  id="f5">
                         <img src="products/footwears/f5.jpg" width="200px" height="160px;">
                         <div class="b" onclick="details('skvlfsandal','products/footwears/f5.jpg')">+</div>
                         </div>
@@ -126,7 +126,7 @@
                         <button class="adminBtnsDelete" onclick="remove('skvlfsandal');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                     </div>
                     <div class="f6" id="peshawarisandal">
-                            <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('f6');" onmouseout="changeag('f6','products/footwears/f6.jpg');" id="f6">
+                            <div class="imgCover" alt="Please Wait Loading..."  id="f6">
                         <img src="products/footwears/f6.jpg" width="200px" height="160px;">
                         <div class="b" onclick="details('peshawarisandal','products/footwears/f6.jpg')">+</div>
                         </div>
@@ -146,7 +146,7 @@
                         <h1 class="proHead"><i class="fa fa-angle-double-down" style="color:aliceblue;"></i> Odjeća</h1>
                         <div style="text-align:center;" class="fContainer1">
                         <div class="f1" id="addidashoody">
-                            <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('c1');" onmouseout="changeag('c1','products/clothes/c1.jpg');" id="c1">
+                            <div class="imgCover" alt="Please Wait Loading..."  id="c1">
                             <img src="products/clothes/c1.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('addidashoody','products/clothes/c1.jpg')">+</div>
                             </div>
@@ -156,7 +156,7 @@
                             <button class="adminBtnsDelete" onclick="remove('addidashoody');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                         </div>
                         <div class="f2" id="bossshirt">
-                                <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('c2');" onmouseout="changeag('c2','products/clothes/c2.jpg');" id="c2">
+                                <div class="imgCover" alt="Please Wait Loading..."  id="c2">
                             <img src="products/clothes/c2.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('bossshirt','products/clothes/c2.jpg')">+</div>
                             </div>
@@ -166,7 +166,7 @@
                             <button class="adminBtnsDelete" onclick="remove('bossshirt');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                         </div>
                         <div class="f3" id="chinospant">
-                                <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('c5');" onmouseout="changeag('c5','products/clothes/c5.jpg');" id="c5">
+                                <div class="imgCover" alt="Please Wait Loading..."  id="c5">
                             <img src="products/clothes/c5.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('chinospant','products/clothes/c5.jpg')">+</div>
                             </div>
@@ -178,7 +178,7 @@
                         </div>
                         <div style="text-align:center;" class="fContainer2">
                         <div class="f4" id="handytshirt">
-                                <div class="imgCover"alt="Please Wait Loading..."  onmouseover="change('c4');" onmouseout="changeag('c4','products/clothes/c4.jpg');" id="c4">
+                                <div class="imgCover"alt="Please Wait Loading..."  id="c4">
                             <img src="products/clothes/c4.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('handytshirt','products/clothes/c4.jpg')">+</div>
                             </div>
@@ -188,7 +188,7 @@
                             <button class="adminBtnsDelete" onclick="remove('handytshirt');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                         </div>
                         <div class="f5" id="khankurta">
-                                <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('c3');" onmouseout="changeag('c3','products/clothes/c3.jpg');" id="c3">
+                                <div class="imgCover" alt="Please Wait Loading..." id="c3">
                             <img src="products/clothes/c3.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('khankurta','products/clothes/c3.jpg')">+</div>
                             </div>
@@ -198,7 +198,7 @@
                             <button class="adminBtnsDelete" onclick="remove('khankurta');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                         </div>
                         <div class="f6" id="denimnarrow">
-                                <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('c6');" onmouseout="changeag('c6','products/clothes/c6.jpg');" id="c6">
+                                <div class="imgCover" alt="Please Wait Loading..." id="c6">
                             <img src="products/clothes/c6.jpg" width="200px" height="160px;">
                             <div class="b" onclick="details('denimnarrow','products/clothes/c6.jpg')">+</div>
                             </div>
@@ -218,7 +218,7 @@
                             <h1 class="proHead"><i class="fa fa-angle-double-down" style="color:aliceblue;"></i> Satovi</h1>
                             <div style="text-align:center;" class="fContainer1">
                             <div class="f1" id="bosswrist">
-                                <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w1');" onmouseout="changeag('w1','products/watches/w1.jpg');" id="w1">
+                                <div class="imgCover" alt="Please Wait Loading..." id="w1">
                                 <img src="products/watches/w1.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('bosswrist','products/watches/w1.jpg')">+</div>
                                 </div>
@@ -228,7 +228,7 @@
                                 <button class="adminBtnsDelete" onclick="remove('bosswrist');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                             </div>
                             <div class="f2" id="eaglecandy">
-                                    <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w2');" onmouseout="changeag('w2','products/watches/w2.jpg');" id="w2">
+                                    <div class="imgCover" alt="Please Wait Loading..." id="w2">
                                 <img src="products/watches/w2.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('eaglecandy','products/watches/w2.jpg')">+</div>
                                 </div>
@@ -238,7 +238,7 @@
                                 <button class="adminBtnsDelete" onclick="remove('eaglecandy');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                             </div>
                             <div class="f3" id="armanicab">
-                                    <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w3');" onmouseout="changeag('w3','products/watches/w3.jpg');" id="w3">
+                                    <div class="imgCover" alt="Please Wait Loading..." id="w3">
                                 <img src="products/watches/w3.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('armanicab','products/watches/w3.jpg')">+</div>
                                 </div>
@@ -250,7 +250,7 @@
                             </div>
                             <div style="text-align:center;" class="fContainer2">
                             <div class="f4" id="rolexraz">
-                                    <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w4');" onmouseout="changeag('w4','products/watches/w4.jpg');" id="w4">
+                                    <div class="imgCover" alt="Please Wait Loading..." id="w4">
                                 <img src="products/watches/w4.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('rolexraz','products/watches/w4.jpg')">+</div>
                                 </div>
@@ -260,7 +260,7 @@
                                 <button class="adminBtnsDelete" onclick="remove('rolexraz');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                             </div>
                             <div class="f5" id="radoblacky">
-                                    <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w5');" onmouseout="changeag('w5','products/watches/w5.jpg');" id="w5">
+                                    <div class="imgCover" alt="Please Wait Loading..." id="w5">
                                 <img src="products/watches/w5.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('radoblacky','products/watches/w5.jpg')">+</div>
                                 </div>
@@ -270,7 +270,7 @@
                                 <button class="adminBtnsDelete" onclick="remove('radoblacky');" title="Delete Product" ><i class="fa fa-trash"></i> Izbriši</button>
                             </div>
                             <div class="f6" id="appleiclock">
-                                    <div class="imgCover" alt="Please Wait Loading..." onmouseover="change('w6');" onmouseout="changeag('w6','products/watches/w6.jpg');" id="w6">
+                                    <div class="imgCover" alt="Please Wait Loading..." id="w6">
                                 <img src="products/watches/w6.jpg" width="200px" height="160px;">
                                 <div class="b" onclick="details('appleiclock','products/watches/w6.jpg')">+</div>
                                 </div>
