@@ -88,7 +88,7 @@ function details(key, src) {
     for (var categoryKey in products) {
         for (var productKey in products[categoryKey]) {
             if (key === productKey) {
-                swal({
+                swal.fire({
                     title: "Ime: " + products[categoryKey][productKey].name,
                     html: "Kategorija: " + products[categoryKey][productKey].category + "<br>"
                         + "Boja: " + products[categoryKey][productKey].color + "<br>"
@@ -177,7 +177,7 @@ function sellProduct(id) {
                         var todayDate = date.getDate();
                         var todayMonth = date.getMonth() + 1;
                         var DATE = todayDate + "/" + todayMonth;
-                        swal({
+                        swal.fire({
                             type: "success",
                             title: "SOLD!",
                             text: "Product " + products[key][key2].name + " has been Sold. Total Price : " + quantity + "X" + products[key][key2].price + "= RS." + quantity * products[key][key2].price + "." + "THANKS!",
@@ -203,7 +203,7 @@ function sellProduct(id) {
 
 function remove(id) {
     var target = document.getElementById(id);
-    swal({
+    swal.fire({
         type: "question",
         title: "Are you sure you want to delete this?",
         text: "If you will delete it once you will no longer have to can access on it.",
@@ -216,7 +216,7 @@ function remove(id) {
     }).then((result) => {
         if (result.value) {
             target.remove();
-            swal({
+            swal.fire({
                 type: "success",
                 title: "Deleted!"
             })
@@ -230,7 +230,7 @@ function add(id) {
 }
 var counterForFoot = 6;
 function insertData(id) {
-    swal({
+    swal.fire({
         type: "success",
         title: "Added Successfully!"
     })
