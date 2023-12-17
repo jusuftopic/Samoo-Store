@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online Prodavnica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="head" title="SamooStore">
+                <i class="fa fa-renren"></i> Online<span class="halfHead">Prodavnica<sup style="font-size:40%; color: white;">&reg</sup>
+                </span>
+            </h1>
+            <button class="logInBtnNavBar" title="Log in" onclick="showSide();">
+                <i class="fa fa-sign-in" aria-hidden="true"> </i> Prijava
+            </button>
+        </div>
+        <div id="loginArea" class="area">
+            <a href="javascript:void(0)" title="Close" class="closebtn" onclick="closeSide()">&times;</a>
+            <button class="panelBtn" title="Login On Admin Panel" onclick="openLogin(true);">Admin</button>
+            <br />
+            <button class="panelBtn" title="Login On Employee Panel" onclick="openLogin(false);">Korisnik</button>
+        </div>
+        <div class="adminPanelLogin" id="adminLogin">
+            <a href="javascript:void(0)" title="Close" class="closebtn" onclick="closeLogin(true)">&times;</a>
+            <h1 class="headd" title="SamooStore">
+                <i class="fa fa-renren"></i> Online<span class="halfHead">Prodavnica<sup style="font-size:40%; color: white;">&reg</sup>
+                </span>
+            </h1>
+            <p class="panels">ADMIN</p>
+            <i class="fa fa-angle-double-down"></i>
+            <div class="signUpForm">
+                <p class="signUpHeading">Prijava</p>
+                <p id="error2">Unijeli ste pogresne korisnicke podatke!</p>
+                <form action="JavaScript:void(0)" onsubmit="adminLogin();">
+                    <label class="text">Email
+                        <br />
+                        <input type="email" class="input" placeholder="Unesite email..." required="required" id="emailM" onfocus="this.className += ' inputfocus'"
+                            onblur="this.className='input'">
+                    </label>
+                    <br />
+                    <label class="text">Lozinka
+                        <br />
+                        <input type="password" class="input" placeholder="Unesite lozinku..." required="required" id="passwordM" onfocus="this.className += ' inputfocus'"
+                            onblur="this.className='input'">
+                    </label>
+                    <br />
+                    <input type="submit" value="Prijavi se" class="submitBtn">
+                </form>
+        
+                <div id="display1">
+                    <i class="fa fa-spinner"></i> Prijava u toku....</div>
+            </div>
+        </div>
+
+        <div class="employeePanelLogin" id="employeeLogin">
+            <a href="javascript:void(0)" title="Close" class="closebtn" onclick="closeLogin(false)">&times;</a>
+            <h1 class="headd" title="SamooStore">
+                <i class="fa fa-renren"></i> Online<span class="halfHead">Prodavnica<sup style="font-size:40%; color: white;">&reg</sup>
+                </span>
+            </h1>
+            <p class="panels">KORISNIK</p>
+            <i class="fa fa-angle-double-down"></i>
+            <div class="signUpForm">
+                <p class="signUpHeading">Registracija</p>
+                <form action="JavaScript:void(0)" onsubmit="signUpEmployee();">
+                    <label class="text">Ime
+                        <br />
+                        <input type="text" class="input" placeholder="Unesi ime...." required="required" id="fullName" onfocus="this.className += ' inputfocus'"
+                            onblur="this.className='input'">
+                    </label>
+                    <br />
+                    <label class="text">Email
+                        <br />
+                        <input type="email" class="input" placeholder="Unesi email..." required="required" id="email" onfocus="this.className += ' inputfocus'"
+                            onblur="this.className='input'">
+                    </label>
+                    <br />
+                    <label class="text">Lozinka
+                        <br />
+                        <input type="password" class="input" placeholder="Unesi lozinku..." required="required" id="password" onfocus="this.className += ' inputfocus'"
+                            onblur="this.className='input'">
+                    </label>
+                    <br />
+                    <br />
+                    <input type="submit" value="Registruj se" class="submitBtn">
+                </form>
+                <div id="display">
+                    <i class="fa fa-spinner"></i> Signing up...</div>
+                <hr / style="width:70%; opacity:0.5; size:0.5px">
+                <p style="color: white;">Već imate račun?</p>
+                <button class="loginbtn" onclick="setInterval(function(){location = 'employelogin.html'},'1000')">Prijavi se</button>
+            </div>
+        </div>
+        <div class="intro">
+            <h1 class="welcomeHead" id="homepageTitle">Online Prodavnica</h1>
+        </div>
+        <div class="abot" id="about">
+            <div id="knowMore"class="img" title="SamooStore"><img src="ab.jpg" width="150px;" height="150px;"></div>
+            <h1 class="samoohead" title="SamooStore">samooStore</h1>
+            <p class="bio"><span class="coma">❝</span>Web stranica za primjer Online prodavnice. Možete se prijaviti kao admin ili kao korisnik. Možete dodavati, brisati stavke proizvoda kao administrator, ali kao korisnik, možete samo prodati proizvod i staviti njegovu evidenciju.<span class="coma"> ❞</span> </p>
+        </div>
+        <div class="footer">
+            <p class="footerr">Projekat Web Tehnologije, 2023..</p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="login.js"></script>
+    <script src="sweetalert2.js"></script>
+</body>
+
+</html>
