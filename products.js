@@ -112,92 +112,85 @@ function sellProductInfoGet(id) {
     var todayMonth = date.getMonth() + 1;
     todayMonth = Number(todayMonth);
     var todayyear = date.getFullYear();
-    for (var key in products) {
-        for (var key2 in products[key]) {
-            if (id === key2) {
-                document.getElementById('productName').innerText = products[key][key2].name;
+    for (var categoryKey in products) {
+        for (var productKey in products[categoryKey]) {
+            if (id === productKey) {
+                document.getElementById('productName').innerText = products[categoryKey][productKey].name;
                 document.getElementById("date").innerText = todayDate + "/" + todayMonth + "/" + todayyear;
-                document.getElementById('priceOfProduct').innerText = products[key][key2].price;
+                document.getElementById('priceOfProduct').innerText = products[categoryKey][productKey].price;
                 document.getElementById("mode").style.display = 'block';
-
             }
         }
     }
 }
+
 var counter = 0;
 var sold = [];
-// localStorage.setItem("sold", JSON.stringify(sold));
-function sellProduct(id) {
-    var nameProduct = id;
-    for (var j = 0; j < nameProduct.length; j++) {
-        if (nameProduct[j] === " ") {
-            nameProduct = nameProduct.slice(0, j) + nameProduct.slice(j + 1);
-        }
-        else if (nameProduct[j] === "-") {
-            nameProduct = nameProduct.slice(0, j) + nameProduct.slice(j + 1);
-        }
-    }
-    nameProduct = nameProduct.toLowerCase();
-    console.log(nameProduct);
-    var quantity = document.getElementById("quantityOfProduct").value;
+localStorage.setItem("sold", JSON.stringify(sold));
 
-    var flag = false;
-    for (var i = 0; i < quantity.length; i++) {
-        if (quantity[i] === "-") {
-            document.getElementById("errorinSaleInfo").innerHTML = "Please Avoid '-' in Quantity.";
-            document.getElementById("errorinSaleInfo").style.display = 'block';
-            document.getElementById("quantityOfProduct").value = "";
-            flag = true;
+function sellProduct(id) {
+    // ukoloni prazan prostor u string name product
+    var nameProduct = id.replace(/[\s-]/g, '').toLowerCase();
+    var quantity = Number(document.getElementById("quantityOfProduct").value);
+    
+     if (quantity < 1 || quantity > 9 || isNaN(quantity)) {
+         showError("Stanje treba biti od 1 do 9.");
+          return;
         }
-        quantity = Number(quantity);
-        if (quantity > 9) {
-            document.getElementById("errorinSaleInfo").innerHTML = "Qunatity Limit is 1 to 9.";
-            document.getElementById("errorinSaleInfo").style.display = 'block';
-            document.getElementById("quantityOfProduct").value = "";
-            flag = true;
-        }
-        if (quantity === 0) {
-            document.getElementById("errorinSaleInfo").innerHTML = "Enter Quantity Please, It can't be 0.";
-            document.getElementById("errorinSaleInfo").style.display = 'block';
-            document.getElementById("quantityOfProduct").value = "";
-            flag = true;
-        }
-        if (flag != true) {
-            document.getElementById("errorinSaleInfo").style.display = 'none';
-            document.getElementById("mode").style.display = 'none';
-            document.getElementById("quantityOfProduct").value = "";
-            for (var key in products) {
-                for (var key2 in products[key]) {
-                    if (nameProduct === key2) {
-                        var NAME = products[key][key2].name;
-                        var PRICE = products[key][key2].price;
-                        var QUANTITY = Number(quantity);
-                        var TOTALPRICE = QUANTITY * products[key][key2].price;
-                        var date = new Date();
-                        var todayDate = date.getDate();
-                        var todayMonth = date.getMonth() + 1;
-                        var DATE = todayDate + "/" + todayMonth;
-                        swal.fire({
-                            type: "success",
-                            title: "SOLD!",
-                            text: "Product " + products[key][key2].name + " has been Sold. Total Price : " + quantity + "X" + products[key][key2].price + "= RS." + quantity * products[key][key2].price + "." + "THANKS!",
-                        })
-                        var soldd = {
-                            date: DATE,
-                            name: NAME,
-                            price: PRICE,
-                            quantity: QUANTITY,
-                            totalprice: TOTALPRICE,
-                        }
-                        localStorage.setItem("sold", JSON.stringify(sold.push(soldd)))
-                        localStorage.setItem("sold", JSON.stringify(sold));
-                        // document.getElementById("some").innerHTML = "";
-                    }
-                }
+
+    var errorElement = document.getElementById("errorinSaleInfo");
+    for(var category in products) {
+        if(products.hasOwnProperty(category)) {
+            var productDetails = products[category] [nameProduct];
+            if(productDetails) {
+                var NAME = productDetails.name;
+                var PRICE = productDetails.price;
+                var QUANTITY = quantity;
+                var TOTALPRICE = QUANTITY * PRICE;
+
+                var date = new Date();
+                var todayDate = date.getDate();
+                var todayMonth = date.getMonth() + 1;
+                var DATE = todayDate + "/" + todayMonth;
+
+                swal.fire({
+                    type: "success",
+                    title: "Prodano!",
+                    text: "Product je prodan!",
+                });
+
+                // aktualiziraj prodane produkte u local storage
+                updateSoldArray(DATE, NAME, PRICE, QUANTITY, TOTALPRICE);
+
+                document.getElementById("quantityOfProduct").value = "";
+                errorElement.style.display = 'none';
+                document.getElementById("mode").style.display = 'none';
+                return;
             }
         }
     }
 
+    showError("Produkt nije pronadjen")
+}
+
+function updateSoldArray(date, name, price, quantity, totalPrice) {
+    var sold = JSON.parse(localStorage.getItem("sold")) || [];
+    var soldItem = {
+        date: date,
+        name: name,
+        price: price,
+        quantity: quantity,
+        totalprice: totalPrice,
+    };
+    sold.push(soldItem);
+    localStorage.setItem("sold", JSON.stringify(sold));
+}
+
+function showError(message) {
+    var errorElement = document.getElementById("errorinSaleInfo");
+    errorElement.innerHTML = message;
+    errorElement.style.display = 'block';
+    document.getElementById("quantityOfProduct").value = "";
 }
 
 
@@ -205,20 +198,19 @@ function remove(id) {
     var target = document.getElementById(id);
     swal.fire({
         type: "question",
-        title: "Are you sure you want to delete this?",
-        text: "If you will delete it once you will no longer have to can access on it.",
+        title: "Da li siguno želite izbrisati produkt?",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: 'rgb(106, 162, 245)',
-        confirmButtonText: 'Delete!',
-        cancelButtonText: "Cancel",
+        confirmButtonText: 'Izbriši!',
+        cancelButtonText: "Odustani",
         confirmButtonColor: "rgb(87, 206, 87)",
     }).then((result) => {
         if (result.value) {
             target.remove();
             swal.fire({
                 type: "success",
-                title: "Deleted!"
+                title: "Izbrisan!"
             })
         }
     })
@@ -229,386 +221,119 @@ function addProduct(category) {
     document.getElementById('category').innerHTML = category;
 }
 
-var counterForFoot = 6;
+var counterFootwear = 6;
+var counterClothes = 6;
+var counterWatches = 6;
+
 function insertData(category) {
-    swal.fire({
-        type: "success",
-        title: "Produkt uspješno dodan!"
-    })
-    if (category === "footwears") {
-        var name = document.getElementById("addName").value;
-        var price = document.getElementById("addPrice").value;
-        price = Number(price);
-        var color = document.getElementById("addColors").value;
-        var stock = document.getElementById("addStock").value;
-        var size = document.getElementById("addSize").value;
-        var firstLetter = name.charAt(0).toUpperCase();
-        var remain = name.slice(1).toLowerCase();
-        name = firstLetter + remain;
+    // prvo je potrebno skupiti podatke iz forme
+    var name = document.getElementById("addName").value;
+    var price = Number(document.getElementById("addPrice").value);
+    var color = document.getElementById("addColors").value;
+    var stock = document.getElementById("addStock").value;
+    var size = document.getElementById("addSize").value;
 
-        document.getElementById("addName").value = "";
-        document.getElementById("addPrice").value = "";
-        document.getElementById("addColors").value = "";
-        document.getElementById("addStock").value = "";
-        document.getElementById("addSize").value = "";
-        document.getElementById("modeForAdd").style.display = 'none';
+    // prvo slovo produkta je veliko slovo
+    var nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
-        var objName = name;
-        console.log(objName)
-        for (var i = 0; i < objName.length; i++) {
-            if (objName[i] === " ") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "  ") {
-                objName = objName.slice(0, i) + objName.slice(i + 2);
-            }
-            if (objName[i] === "-") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "_") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            objName = objName.toLowerCase();
+    // očisti podatke iz forme
+    document.getElementById("addName").value = "";
+    document.getElementById("addPrice").value = "";
+    document.getElementById("addColors").value = "";
+    document.getElementById("addStock").value = "";
+    document.getElementById("addSize").value = "";
+    document.getElementById("modeForAdd").style.display = 'none';
+
+    var productToAdd = new Products(category, nameCapitalized, price, color, stock, size);
+
+    // dodaj produkt u njegovu kategoriju
+    for(var categoryKey in products) {
+        if(categoryKey === category) {
+            products[categoryKey].newProduct = productToAdd;
         }
-
-        for (var key in products) {
-            if (key === category) {
-                products[key].newProduct = new Products(category, name, price, color, stock, size)
-            }
-        }
-        counterForFoot++;
-        var maintarget = document.getElementById("newAddedOfFootwears");
-
-        var mainDiv = document.createElement("div");
-        mainDiv.setAttribute("class", "newOne");
-        mainDiv.setAttribute("id", name);
-
-        var subDiv = document.createElement("div");
-        subDiv.setAttribute("class", "imgCover");
-        subDiv.setAttribute("id", 'f' + counterForFoot);
-        subDiv.setAttribute("onmouseover", 'changee(' + "'" + 'f' + counterForFoot + "'" + ')');
-        subDiv.setAttribute("onmouseout", 'changeeag(' + "'" + 'f' + counterForFoot + "'" + ')');
-
-
-        var img = document.createElement("img");
-        img.setAttribute("src", "f7.png");
-        img.setAttribute("width", "200px");
-        img.setAttribute("height", "150px");
-        img.setAttribute("alt", "Please wait Loading...")
-
-        subDiv.appendChild(img);
-
-        var plus = document.createElement("div");
-        plus.setAttribute("class", "b");
-        plus.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './f7.png' + "'" + ')');
-        var plustext = document.createTextNode("+");
-        plus.appendChild(plustext);
-        subDiv.appendChild(plus);
-        mainDiv.appendChild(subDiv);
-
-        var p = document.createElement("p");
-        p.setAttribute("class", "proInfoN");
-        p.setAttribute("id", objName + "1");
-        p.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './f7.png' + "'" + ')')
-        var ptext = document.createTextNode(name);
-        p.appendChild(ptext);
-
-        mainDiv.appendChild(p);
-        var priceInfo = document.createElement("p");
-        priceInfo.setAttribute("class", "proInfo");
-        var priceText = document.createTextNode("RS." + price);
-        priceInfo.appendChild(priceText);
-        mainDiv.appendChild(priceInfo);
-        var editBtn = document.createElement("button");
-        editBtn.setAttribute("class", "adminBtnsEdit");
-        editBtn.setAttribute("title", "More");
-        editBtn.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './f7.png' + "'" + ')')
-        var editBtnFa = document.createElement("i");
-        editBtnFa.setAttribute("class", "fa fa-arrow-up");
-        editBtn.appendChild(editBtnFa);
-        var editBtnText = document.createTextNode(" MORE");
-        editBtn.appendChild(editBtnText);
-        mainDiv.appendChild(editBtn);
-
-        var deleteBtn = document.createElement("button");
-        deleteBtn.setAttribute("class", "adminBtnsDelete");
-        deleteBtn.setAttribute("title", "Delete Product");
-        deleteBtn.setAttribute("onclick", 'remove(' + "'" + name + "'" + ')')
-        var deleteBtnFa = document.createElement("i");
-        deleteBtnFa.setAttribute("class", "fa fa-trash");
-        deleteBtn.appendChild(deleteBtnFa);
-        var deleteBtnText = document.createTextNode(" Delete");
-        deleteBtn.appendChild(deleteBtnText);
-        mainDiv.appendChild(deleteBtn);
-
-
-        maintarget.appendChild(mainDiv);
-        var a = document.getElementById("footwearsAdd");
-        a.removeAttribute("onclick");
-        a.style.backgroundColor = "rgb(164, 252, 164)"
     }
-    if (category === "clothes") {
-        var name = document.getElementById("addName").value;
-        var price = document.getElementById("addPrice").value;
-        price = Number(price);
-        var color = document.getElementById("addColors").value;
-        var stock = document.getElementById("addStock").value;
-        var size = document.getElementById("addSize").value;
-        var firstLetter = name.charAt(0).toUpperCase();
-        var remain = name.slice(1).toLowerCase();
-        name = firstLetter + remain;
 
-        document.getElementById("addName").value = "";
-        document.getElementById("addPrice").value = "";
-        document.getElementById("addColors").value = "";
-        document.getElementById("addStock").value = "";
-        document.getElementById("addSize").value = "";
-        document.getElementById("modeForAdd").style.display = 'none';
+    // inicijalno svaka kategorija ima 6 produkta. Potrebno je naci odgovarajuci 
+    // counter za dodani produkt.
+    var counter = getCounter(category);
+    counter++;
 
-        var objName = name;
-        for (var i = 0; i < objName.length; i++) {
-            if (objName[i] === " ") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "  ") {
-                objName = objName.slice(0, i) + objName.slice(i + 2);
-            }
-            if (objName[i] === "-") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "_") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            objName = objName.toLowerCase();
-        }
+    displayNewProduct(category, nameCapitalized, counter, price);
 
-        for (var key in products) {
-            if (key === category) {
-                products[key].newProduct = new Products(category, name, price, color, stock, size)
-            }
-        }
-        counterForFoot++;
-        var maintarget = document.getElementById("newAddedOfClothes");
-
-        var mainDiv = document.createElement("div");
-        mainDiv.setAttribute("class", "newOne");
-        mainDiv.setAttribute("id", name);
-
-        var subDiv = document.createElement("div");
-        subDiv.setAttribute("class", "imgCover");
-        subDiv.setAttribute("id", 'c' + counterForFoot);
-        subDiv.setAttribute("onmouseover", 'changee(' + "'" + 'c' + counterForFoot + "'" + ')');
-        subDiv.setAttribute("onmouseout", 'changeeag(' + "'" + 'c' + counterForFoot + "'" + ')');
-
-        var img = document.createElement("img");
-        img.setAttribute("src", "c7.jpg");
-        img.setAttribute("width", "200px");
-        img.setAttribute("height", "150px");
-        img.setAttribute("alt", "Please wait Loading...")
-        subDiv.appendChild(img);
-
-        var plus = document.createElement("div");
-        plus.setAttribute("class", "b");
-        plus.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './c7.jpg' + "'" + ')');
-        var plustext = document.createTextNode("+");
-        plus.appendChild(plustext);
-        subDiv.appendChild(plus);
-        mainDiv.appendChild(subDiv);
-
-
-
-        var p = document.createElement("p");
-        p.setAttribute("class", "proInfoN");
-        p.setAttribute("id", objName + "1");
-        p.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './c7.jpg' + "'" + ')')
-        var ptext = document.createTextNode(name);
-        p.appendChild(ptext);
-
-        mainDiv.appendChild(p);
-        var priceInfo = document.createElement("p");
-        priceInfo.setAttribute("class", "proInfo");
-        var priceText = document.createTextNode("RS." + price);
-        priceInfo.appendChild(priceText);
-        mainDiv.appendChild(priceInfo);
-        var editBtn = document.createElement("button");
-        editBtn.setAttribute("class", "adminBtnsEdit");
-        editBtn.setAttribute("title", "More");
-        editBtn.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './c7.jpg' + "'" + ')')
-        var editBtnFa = document.createElement("i");
-        editBtnFa.setAttribute("class", "fa fa-arrow-up");
-        editBtn.appendChild(editBtnFa);
-        var editBtnText = document.createTextNode(" MORE");
-        editBtn.appendChild(editBtnText);
-        mainDiv.appendChild(editBtn);
-
-        var deleteBtn = document.createElement("button");
-        deleteBtn.setAttribute("class", "adminBtnsDelete");
-        deleteBtn.setAttribute("title", "Delete Product");
-        deleteBtn.setAttribute("onclick", 'remove(' + "'" + name + "'" + ')')
-        var deleteBtnFa = document.createElement("i");
-        deleteBtnFa.setAttribute("class", "fa fa-trash");
-        deleteBtn.appendChild(deleteBtnFa);
-        var deleteBtnText = document.createTextNode(" Delete");
-        deleteBtn.appendChild(deleteBtnText);
-        mainDiv.appendChild(deleteBtn);
-        maintarget.appendChild(mainDiv);
-        var a = document.getElementById("clothesAdd");
-        a.removeAttribute("onclick");
-        a.style.backgroundColor = "rgb(164, 252, 164)"
-    }
-    if (category === "watches") {
-        var name = document.getElementById("addName").value;
-        var price = document.getElementById("addPrice").value;
-        price = Number(price);
-        var color = document.getElementById("addColors").value;
-        var stock = document.getElementById("addStock").value;
-        var size = document.getElementById("addSize").value;
-        var firstLetter = name.charAt(0).toUpperCase();
-        var remain = name.slice(1).toLowerCase();
-        name = firstLetter + remain;
-
-        document.getElementById("addName").value = "";
-        document.getElementById("addPrice").value = "";
-        document.getElementById("addColors").value = "";
-        document.getElementById("addStock").value = "";
-        document.getElementById("addSize").value = "";
-        document.getElementById("modeForAdd").style.display = 'none';
-
-        var objName = name;
-        console.log(objName)
-        for (var i = 0; i < objName.length; i++) {
-            if (objName[i] === " ") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "  ") {
-                objName = objName.slice(0, i) + objName.slice(i + 2);
-            }
-            if (objName[i] === "-") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            if (objName[i] === "_") {
-                objName = objName.slice(0, i) + objName.slice(i + 1);
-            }
-            objName = objName.toLowerCase();
-        }
-
-        for (var key in products) {
-            if (key === category) {
-                products[key].newProduct = new Products(category, name, price, color, stock, size)
-            }
-        }
-        counterForFoot++;
-        var maintarget = document.getElementById("newAddedOfWatches");
-
-        var mainDiv = document.createElement("div");
-        mainDiv.setAttribute("class", "newOne");
-        mainDiv.setAttribute("id", name);
-
-        var subDiv = document.createElement("div");
-        subDiv.setAttribute("class", "imgCover");
-        subDiv.setAttribute("id", 'w' + counterForFoot);
-        subDiv.setAttribute("onmouseover", 'changee(' + "'" + 'w' + counterForFoot + "'" + ')');
-        subDiv.setAttribute("onmouseout", 'changeeag(' + "'" + 'w' + counterForFoot + "'" + ')');
-
-        var img = document.createElement("img");
-        img.setAttribute("src", "w7.jpg");
-        img.setAttribute("width", "200px");
-        img.setAttribute("height", "150px");
-        img.setAttribute("alt", "Please wait Loading...")
-
-        subDiv.appendChild(img);
-
-        var plus = document.createElement("div");
-        plus.setAttribute("class", "b");
-        plus.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './w7.jpg' + "'" + ')');
-        var plustext = document.createTextNode("+");
-        plus.appendChild(plustext);
-        subDiv.appendChild(plus);
-        mainDiv.appendChild(subDiv);
-
-        var p = document.createElement("p");
-        p.setAttribute("class", "proInfoN");
-        p.setAttribute("id", objName + "1");
-        p.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './w7.jpg' + "'" + ')')
-        var ptext = document.createTextNode(name);
-        p.appendChild(ptext);
-
-        mainDiv.appendChild(p);
-
-        var priceInfo = document.createElement("p");
-        priceInfo.setAttribute("class", "proInfo");
-        var priceText = document.createTextNode("RS." + price);
-        priceInfo.appendChild(priceText);
-        mainDiv.appendChild(priceInfo);
-
-        var editBtn = document.createElement("button");
-        editBtn.setAttribute("class", "adminBtnsEdit");
-        editBtn.setAttribute("title", "More");
-        editBtn.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './w7.jpg' + "'" + ')')
-        var editBtnFa = document.createElement("i");
-        editBtnFa.setAttribute("class", "fa fa-arrow-up");
-        editBtn.appendChild(editBtnFa);
-        var editBtnText = document.createTextNode(" MORE");
-        editBtn.appendChild(editBtnText);
-        mainDiv.appendChild(editBtn);
-
-        var deleteBtn = document.createElement("button");
-        deleteBtn.setAttribute("class", "adminBtnsDelete");
-        deleteBtn.setAttribute("title", "Delete Product");
-        deleteBtn.setAttribute("onclick", 'remove(' + "'" + name + "'" + ')')
-        var deleteBtnFa = document.createElement("i");
-        deleteBtnFa.setAttribute("class", "fa fa-trash");
-        deleteBtn.appendChild(deleteBtnFa);
-        var deleteBtnText = document.createTextNode(" Delete");
-        deleteBtn.appendChild(deleteBtnText);
-        mainDiv.appendChild(deleteBtn);
-
-
-        maintarget.appendChild(mainDiv);
-        var a = document.getElementById("watchesAdd");
-        a.removeAttribute("onclick");
-        a.style.backgroundColor = "rgb(164, 252, 164)"
-    }
-}
-function saleDayGo() {
-    setTimeout(function () {
-        location = 'sale.html'
-    }, 1000)
+    resetAddButtonStyle(category);
 }
 
-function soldList() {
-    var b = JSON.parse(localStorage.getItem("sold"));
-    console.log(b.length);
-    var tp = 0;
-    for (var i = 0; i < b.length; i++) {
-        var D = b[i].date;
-        var N = b[i].name;
-        var Q = b[i].quantity;
-        var TP = b[i].totalprice;
-        TP = Number(TP);
-        tp = tp + b[i].totalprice;
-        var target = document.getElementById("Table");
-        var target2 = target.childNodes[2];
-        var tr = document.createElement("tr");
-        var dateTd = document.createElement("td");
-        var dateTdText = document.createTextNode(D);
-        dateTd.appendChild(dateTdText);
-        tr.appendChild(dateTd);
-        var productTd = document.createElement("td");
-        var productTdText = document.createTextNode(N);
-        productTd.appendChild(productTdText);
-        tr.appendChild(productTd);
-        var quantityTd = document.createElement("td");
-        var quantityTdText = document.createTextNode(Q);
-        quantityTd.appendChild(quantityTdText);
-        tr.appendChild(quantityTd);
-        var tpTd = document.createElement("td");
-        var tpTdText = document.createTextNode("RS." + TP);
-        tpTd.appendChild(tpTdText);
-        tr.appendChild(tpTd);
-        target.insertBefore(tr, target2);
+function getCounter(category) {
+    switch(category) {
+        case "footwears": return counterFootwear;
+        case "clothes": return counterClothes;
+        case "watches": return counterWatches;
+        default: return 0;
     }
-    document.getElementById("some").innerHTML = b.length + " Items has been Sold!"
-    document.getElementById("saleTotal").innerHTML = "RS." + tp;
 }
-soldList()
+
+function displayNewProduct(category, name, counter, price) {
+    var maintarget = document.getElementById("newAddedOf" + category.charAt(0).toUpperCase() + category.slice(1));
+
+    var mainDiv = document.createElement("div");
+    mainDiv.setAttribute("class", "newOne");
+    mainDiv.setAttribute("id", name);
+
+    var subDiv = document.createElement("div");
+    subDiv.setAttribute("class", "imgCover");
+    subDiv.setAttribute("id", category.charAt(0) + counter);
+
+    var img = document.createElement("img");
+    img.setAttribute("src", category.charAt(0) + counter + ".png");
+    img.setAttribute("width", "200px");
+    img.setAttribute("height", "150px");
+    img.setAttribute("alt", "Please wait Loading...");
+
+    subDiv.appendChild(img);
+    mainDiv.appendChild(subDiv);
+
+    var p = document.createElement("p");
+    p.setAttribute("class", "proInfoN");
+    p.setAttribute("id", name + "1");
+    p.setAttribute("onclick", 'details(' + "'" + name + "'" + ',' + "'" + './' + category.charAt(0) + counter + ".png" + "'" + ')');
+    var ptext = document.createTextNode(name);
+    p.appendChild(ptext);
+
+    mainDiv.appendChild(p);
+
+    var priceInfo = document.createElement("p");
+    priceInfo.setAttribute("class", "proInfo");
+    var priceText = document.createTextNode(price + " KM");
+    priceInfo.appendChild(priceText);
+    mainDiv.appendChild(priceInfo);
+
+    var editBtn = createButton("adminBtnsEdit", "Više", 'details(' + "'" + name + "'" + ',' + "'" + './' + category.charAt(0) + counter + ".png" + "'" + ')', "fa fa-arrow-up", "MORE");
+    mainDiv.appendChild(editBtn);
+
+    var deleteBtn = createButton("adminBtnsDelete", "Izbriši produkt", 'remove(' + "'" + name + "'" + ")", "fa fa-trash", "Delete");
+    mainDiv.appendChild(deleteBtn);
+
+    maintarget.appendChild(mainDiv);
+}
+
+function createButton(className, title, onclick, iconClass, buttonText) {
+    var button = document.createElement("button");
+    button.setAttribute("class", className);
+    button.setAttribute("title", title);
+    button.setAttribute("onclick", onclick);
+
+    var icon = document.createElement("i");
+    icon.setAttribute("class", iconClass);
+    button.appendChild(icon);
+
+    var buttonTextElement = document.createTextNode(" " + buttonText);
+    button.appendChild(buttonTextElement);
+
+    return button;
+}
+
+function resetAddButtonStyle(category) {
+    var addButton = document.getElementById(category + "Add");
+    addButton.removeAttribute("onclick");
+    addButton.style.backgroundColor = "rgb(164, 252, 164)";
+}

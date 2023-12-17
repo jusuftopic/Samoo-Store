@@ -53,9 +53,9 @@
                                 <input type="text" class="inputOfedit" id="addName" placeholder="Naziv proizvoda" required="required">
                                 <input type="number" class="inputOfedit" id="addPrice" placeholder="Cijena proizvoda" required="required">
                                 <input type="text" class="inputOfedit" id="addColors" placeholder="Boje proizvoda" required="required">
-                                <input type="text" class="inputOfedit" id="addStock" placeholder="Dostupnost proizvoda" required="required">
+                                <input type="number" class="inputOfedit" id="addStock" placeholder="Količina" required="required">
                                 <input type="text" class="inputOfedit" id="addSize" placeholder="Veličine proizvoda" required="required">
-                                <input type="submit" value="+ ADD" class="submitBtnOfSale">
+                                <input type="submit" value="+ DODAJ" class="submitBtnOfSale">
                             </form>
                             </div>
                             <div class="footerOfMode" onclick="document.getElementById('modeForAdd').style.display = 'none';">
@@ -138,7 +138,7 @@
                     <div id="newAddedOfFootwears">
 
                     </div>
-                    <button class="adminBtnsAdd" onclick="add('footwears','newAddedOfFootwears');" title="ADD Product" id="footwearsAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
+                    <button class="adminBtnsAdd" onclick="addProduct('footwears');" title="ADD Product" id="footwearsAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
                     </div>
                 </div>
 
@@ -210,7 +210,7 @@
                         <div id="newAddedOfClothes">
 
                             </div>
-                        <button class="adminBtnsAdd" onclick="add('clothes','newAddedOfClothes');" title="ADD Product" id="clothesAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
+                        <button class="adminBtnsAdd" onclick="addProduct('clothes');" title="ADD Product" id="clothesAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
                         </div>
                     </div>
 
@@ -282,7 +282,7 @@
                             <div id="newAddedOfWatches">
 
                                 </div>
-                            <button class="adminBtnsAdd" onclick="add('watches','newAddedOfWatches');" title="ADD Product" id="watchesAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
+                            <button class="adminBtnsAdd" onclick="addProduct('watches');" title="ADD Product" id="watchesAdd"><i class="fa fa-plus"></i> Dodaj proizvod</button>
                             </div>
                         </div>
                         </div>
