@@ -224,17 +224,18 @@ function remove(id) {
     })
 }
 
-function add(id) {
+function addProduct(category) {
     document.getElementById("modeForAdd").style.display = 'block';
-    document.getElementById('category').innerHTML = id;
+    document.getElementById('category').innerHTML = category;
 }
+
 var counterForFoot = 6;
-function insertData(id) {
+function insertData(category) {
     swal.fire({
         type: "success",
-        title: "Added Successfully!"
+        title: "Produkt uspješno dodan!"
     })
-    if (id === "footwears") {
+    if (category === "footwears") {
         var name = document.getElementById("addName").value;
         var price = document.getElementById("addPrice").value;
         price = Number(price);
@@ -271,8 +272,8 @@ function insertData(id) {
         }
 
         for (var key in products) {
-            if (key === id) {
-                products[key].newProduct = new Products(id, name, price, color, stock, size)
+            if (key === category) {
+                products[key].newProduct = new Products(category, name, price, color, stock, size)
             }
         }
         counterForFoot++;
@@ -304,8 +305,6 @@ function insertData(id) {
         plus.appendChild(plustext);
         subDiv.appendChild(plus);
         mainDiv.appendChild(subDiv);
-
-
 
         var p = document.createElement("p");
         p.setAttribute("class", "proInfoN");
@@ -348,7 +347,7 @@ function insertData(id) {
         a.removeAttribute("onclick");
         a.style.backgroundColor = "rgb(164, 252, 164)"
     }
-    if (id === "clothes") {
+    if (category === "clothes") {
         var name = document.getElementById("addName").value;
         var price = document.getElementById("addPrice").value;
         price = Number(price);
@@ -367,7 +366,6 @@ function insertData(id) {
         document.getElementById("modeForAdd").style.display = 'none';
 
         var objName = name;
-        console.log(objName)
         for (var i = 0; i < objName.length; i++) {
             if (objName[i] === " ") {
                 objName = objName.slice(0, i) + objName.slice(i + 1);
@@ -385,8 +383,8 @@ function insertData(id) {
         }
 
         for (var key in products) {
-            if (key === id) {
-                products[key].newProduct = new Products(id, name, price, color, stock, size)
+            if (key === category) {
+                products[key].newProduct = new Products(category, name, price, color, stock, size)
             }
         }
         counterForFoot++;
@@ -458,7 +456,7 @@ function insertData(id) {
         a.removeAttribute("onclick");
         a.style.backgroundColor = "rgb(164, 252, 164)"
     }
-    if (id === "watches") {
+    if (category === "watches") {
         var name = document.getElementById("addName").value;
         var price = document.getElementById("addPrice").value;
         price = Number(price);
@@ -495,8 +493,8 @@ function insertData(id) {
         }
 
         for (var key in products) {
-            if (key === id) {
-                products[key].newProduct = new Products(id, name, price, color, stock, size)
+            if (key === category) {
+                products[key].newProduct = new Products(category, name, price, color, stock, size)
             }
         }
         counterForFoot++;
